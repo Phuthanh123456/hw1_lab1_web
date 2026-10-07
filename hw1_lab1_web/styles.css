@@ -116,6 +116,7 @@ h2 > span { color: #708b34; }
 .project-number, .project-type { color: #62665f; font-size: 9px; }
 .project-info h3 { margin-bottom: 4px; font-size: 18px; letter-spacing: -.04em; }
 .project-info p { max-width: 510px; margin: 0; color: #63675f; font-size: 12px; }
+.project-link { display: inline-flex; min-height: 44px; align-items: center; gap: 8px; color: var(--ink); font-size: 12px; font-weight: 700; text-underline-offset: 4px; }
 .project-type { justify-self: end; text-align: right; }
 
 .contact { overflow: hidden; padding-block: 88px; background: var(--green); border: 0; }
@@ -127,7 +128,8 @@ h2 > span { color: #708b34; }
 .contact-content h2 span { color: #35441c; }
 .contact-note { max-width: 390px; margin-bottom: 28px; color: #45542a; font-size: 13px; }
 .contact-address { margin: 0; color: #435329; font-size: 9px; }
-.contact-address span { margin-left: 10px; color: #20271a; font-family: var(--sans); font-size: 13px; font-weight: 700; letter-spacing: 0; text-transform: none; }
+.contact-address a { display: inline-flex; min-height: 44px; align-items: center; margin-left: 10px; color: #20271a; font-family: var(--sans); font-size: 13px; font-weight: 700; letter-spacing: 0; text-transform: none; overflow-wrap: anywhere; text-underline-offset: 4px; }
+.contact-profile { display: inline-flex; min-height: 44px; align-items: center; gap: 8px; color: var(--ink); font-size: 13px; font-weight: 700; text-underline-offset: 4px; }
 .contact-stamp { position: absolute; top: 5px; right: 6%; display: grid; width: 190px; height: 190px; align-content: center; justify-items: center; border: 1px solid rgb(41 53 23 / 32%); border-radius: 50%; color: #3f4d26; font-family: var(--mono); font-size: 10px; letter-spacing: .15em; line-height: 1.5; text-align: center; transform: rotate(12deg); }
 .stamp-star { margin-top: 8px; font-size: 27px; }
 .site-footer { background: var(--paper); }
