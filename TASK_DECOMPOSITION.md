@@ -94,6 +94,13 @@
 - Exercise all interactive features and verify that prohibited inline script execution is blocked.
 - Inspect the delivered response headers (or the documented meta policy) to confirm the effective directives.
 
+### M3 audit results
+
+- Source inspection found no inline event-handler attributes, `<style>` elements, style attributes, or inline scripts. The page loads only `styles.css` and `script.js` from the same origin; behavior remains in the external JavaScript file.
+- Added an early CSP meta policy: `default-src 'none'`; `script-src 'self'`; `script-src-attr 'none'`; `style-src 'self'`; `style-src-attr 'none'`; `img-src 'self'`; `font-src 'self'`; `connect-src 'self'`; `base-uri 'self'`; `form-action 'self'`; `object-src 'none'`; and `frame-src 'none'`. It contains neither `unsafe-inline` nor `unsafe-eval`.
+- The workspace has no server or deployment configuration, so the static page uses a meta policy. The local static server returned HTTP 200 for the page, CSS, and JavaScript, while the page response had no CSP header. Meta policies cannot enforce `frame-ancestors` or reporting directives; the deployment should send the policy as a response header when its hosting configuration is available.
+- In headless Edge, the page loaded its CSS and JavaScript, retained the expected styling, updated the footer year, and opened the menu with no CSP violation in the initial console. Temporary browser probes confirmed the policy blocks inline scripts, event handlers, style attributes, and `<style>` elements; all four probes produced the expected CSP violations and did not execute or apply their inline content.
+
 ## M4 - Lighthouse audit and asset optimization
 
 **Commit message:** `perf: optimize assets`
