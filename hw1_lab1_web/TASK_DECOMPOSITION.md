@@ -122,6 +122,13 @@
 - The workspace has no server or deployment configuration, so the static page uses a meta policy. The local static server returned HTTP 200 for the page, CSS, and JavaScript, while the page response had no CSP header. Meta policies cannot enforce `frame-ancestors` or reporting directives; the deployment should send the policy as a response header when its hosting configuration is available.
 - In headless Edge, the page loaded its CSS and JavaScript, retained the expected styling, updated the footer year, and opened the menu with no CSP violation in the initial console. Temporary browser probes confirmed the policy blocks inline scripts, event handlers, style attributes, and `<style>` elements; all four probes produced the expected CSP violations and did not execute or apply their inline content.
 
+### M3 personalized rebuild verification — 2026-10-07
+
+- Tightened unused capabilities to `base-uri 'none'`, `form-action 'none'`, `font-src 'none'`, and `connect-src 'none'`. Scripts, styles, and favicon remain same-origin; default/object/frame sources and script/style attributes are denied. No unsafe-inline or unsafe-eval is allowed.
+- Source and live DOM checks found no inline scripts, inline styles, style attributes, or event-handler attributes. Chrome startup console/runtime had no errors, and the external menu script still worked.
+- Browser probes confirmed inline script, onclick, inline style, and style attribute were blocked, with four expected securitypolicyviolation events. These temporary probes were removed and never added to project source.
+- Policy is supplied by an early HTML meta tag. Hosting response headers (including frame-ancestors, which meta cannot enforce) remain outside this local static-source audit.
+
 ## M4 - Lighthouse audit and asset optimization
 
 **Commit message:** `perf: optimize assets`
