@@ -4,7 +4,7 @@
 
 - Source information: `D:\PhuThanh\Code\ex_lab1_web\index.html`, `about/index.html`, `contact/index.html`, and `projects.json` (read only).
 - Included only the name Thai Nguyen Thanh Phu, Information Systems / UIT background, city, four skills, two project summaries with their existing repository links, email, and GitHub profile. No source application code, environment files, private configuration, phone number, or credentials were copied.
-- HW1 uses Vanilla HTML/CSS/JavaScript with external files. Source files are in `hw1_lab1_web`; the existing Git root remains its parent. The file placement was recorded as six unchanged renames, preserving the original milestone history.
+- HW1 uses Vanilla HTML/CSS/JavaScript with external files. All HW1 source files and this WBS are at the existing Git root; there is no nested HW1 folder or nested repository. The seven source files were moved to the root as Git renames, preserving the original milestone history and the existing repository.
 - The following rebuild notes are new checks; earlier audit notes remain as historical results.
 
 ## M1 - WCAG 2.2 AA audit
