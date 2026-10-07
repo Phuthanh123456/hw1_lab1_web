@@ -35,19 +35,24 @@ if (menuToggle && primaryNavigation) {
 
   const mobileNavigation = window.matchMedia('(max-width: 760px)');
   let lastNavigationFocus = null;
+  let lastToggleHadFocus = false;
 
   primaryNavigation.addEventListener('focusin', (event) => {
     lastNavigationFocus = event.target;
   });
 
   document.addEventListener('focusin', (event) => {
-    if (event.target !== document.body && !primaryNavigation.contains(event.target)) {
-      lastNavigationFocus = null;
+    if (event.target !== document.body) {
+      lastToggleHadFocus = event.target === menuToggle;
+      if (!primaryNavigation.contains(event.target)) {
+        lastNavigationFocus = null;
+      }
     }
   });
 
   mobileNavigation.addEventListener('change', (event) => {
-    const toggleHadFocus = document.activeElement === menuToggle;
+    const toggleHadFocus = document.activeElement === menuToggle
+      || (document.activeElement === document.body && lastToggleHadFocus);
     const navigationHadFocus = primaryNavigation.contains(document.activeElement)
       || (document.activeElement === document.body && lastNavigationFocus?.isConnected);
 

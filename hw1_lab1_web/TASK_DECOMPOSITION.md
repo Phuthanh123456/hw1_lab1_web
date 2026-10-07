@@ -83,6 +83,12 @@
 - Resizing across the 760px breakpoint could hide the focused menu control or link. The menu now hands focus from the mobile toggle to the first desktop navigation link, and back to the toggle when the navigation collapses on mobile. The expanded state resets when the layout changes.
 - Repeated the Tab, Shift+Tab, Escape, link activation, and resize checks after the fixes. Focus stayed visible, moved to sensible destinations, and could leave the navigation in both directions. No keyboard traps remain in the audited flows.
 
+### M2 personalized rebuild verification — 2026-10-07
+
+- No Tab trap was found. Fresh browser keyboard checks passed: Space opens Menu, Tab enters navigation, Shift+Tab returns to its trigger, Enter closes navigation and focuses the destination heading, Escape closes and restores trigger focus, and Tab leaves the final navigation link. Focus has a visible outline.
+- Preserved and verified the resize focus fix: Chrome can move focus to body when CSS hides the menu trigger before the breakpoint callback. Remembering whether the trigger last held focus lets desktop navigation receive focus instead of losing it.
+- Four complete mobile-to-desktop-to-mobile resize cycles passed, as did the seven navigation checks (15 checks total). The non-modal menu has no focus containment, and no dialogs or other trapping widgets exist.
+
 ## M3 - Strict Content Security Policy
 
 **Commit message:** `security(csp): enforce strict policy`
