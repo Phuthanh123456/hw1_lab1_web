@@ -1,0 +1,112 @@
+# Homework 1 - Production Portfolio
+
+## M1 - WCAG 2.2 AA audit
+
+**Commit message:** `fix(a11y): contrast & landmarks`
+
+### Tasks
+
+- Audit all pages and interactive states against WCAG 2.2 Level AA, including keyboard access, visible focus, labels, and semantic structure.
+- Check text, large-text, control, and focus-indicator contrast; correct failures with accessible colors.
+- Add or correct page landmarks and heading structure (`header`, `nav`, `main`, `footer`, and appropriately nested headings).
+- Ensure images have appropriate alternative text and form controls have programmatic labels.
+- Record any criteria that do not apply and any remaining accessibility issues.
+
+### Completion criteria
+
+- No known WCAG 2.2 AA violations remain in the audited pages and states.
+- Landmarks and headings provide a meaningful, navigable page outline.
+- Text and relevant UI elements meet applicable contrast requirements, and keyboard focus is visible.
+- Changes are limited to this milestone and documented in the audit notes or review summary.
+
+### How to check
+
+- Run an accessibility scan with an automated checker (for example, axe or Lighthouse) on each page; resolve or explain every finding.
+- Manually navigate each page using only the keyboard and inspect the landmark/heading outline with browser accessibility tools.
+- Verify color contrast with a contrast analyzer, including hover, focus, and disabled states where applicable.
+- Test at narrow and wide viewport sizes and with a screen reader or browser accessibility tree.
+
+### M1 audit results
+
+- Reviewed the portfolio at 390px and 1440px viewport widths. Added a visible-on-focus "Skip to main content" link and a focus target on `main` so keyboard users can bypass repeated navigation.
+- Darkened small text that fell below 4.5:1, including section labels, metadata, and section eyebrows. Representative checked ratios now include 5.99:1 for section labels, 5.30:1 (4.93:1 on the skills surface) for section eyebrows, and 4.91:1 for labels on the green contact panel. Large green heading text is 3.54:1 against the paper background.
+- Updated focus indicator colors for light and dark surfaces. Checked ratios are 15.48:1 on the paper background, 14.40:1 on the skills surface, 12.86:1 on the contact surface, and 11.12:1 on the dark hero.
+- Ran axe-core 4.13.0 for WCAG 2.0, 2.1, and 2.2 Level A/AA rules at desktop width and with the mobile menu closed and open. Each scan reported zero violations (20-22 passing rules). Axe marked 4-5 contrast nodes as incomplete because they are symbols or decorative artwork; these are hidden from the accessibility tree or are non-text decoration, and visible text pairs were checked separately.
+- Verified the accessibility tree exposes the banner, labeled main navigation, main content, footer, and a button named "Menu". The heading sequence is one `h1`, section `h2` headings, and project `h3` headings. There are no content images or form fields, so image alt text and form labels are not applicable; CSS artwork is hidden from assistive technology.
+- Exercised keyboard navigation in the mobile layout: Tab reaches the skip link, activating it moves to main content, the menu button opens with Enter/Space, Tab and Shift+Tab move through navigation links, and Escape closes the menu and returns focus to its button. No M1 findings remain.
+
+## M2 - Focus-trap audit
+
+**Commit message:** `fix(nav): keyboard trap prevention`
+
+### Tasks
+
+- Inventory navigation, menus, dialogs, overlays, and other components that take or constrain focus.
+- Trace keyboard entry, movement, dismissal, and exit paths for every such component.
+- Ensure Escape and visible close controls dismiss dismissible overlays, and return focus to the invoking control.
+- Ensure Tab and Shift+Tab can leave non-modal UI; for modal dialogs, keep focus contained only while open and provide a reliable close/exit path.
+- Correct focus order, focus loss, or unreachable controls found during the audit.
+
+### Completion criteria
+
+- Keyboard users can reach and operate every navigation control and can leave each non-modal component.
+- Any modal focus containment is intentional, limited to the open modal, and can be exited using an available dismissal method.
+- Closing a menu or dialog restores focus to a sensible location, usually its trigger.
+- No keyboard trap or keyboard-inaccessible navigation path remains in audited flows.
+
+### How to check
+
+- Use only Tab, Shift+Tab, Enter, Space, and Escape to exercise each audited flow; confirm focus remains visible and progresses as expected.
+- Test opening and closing each menu/dialog repeatedly, including nested or adjacent controls, and confirm focus restoration.
+- Repeat at desktop and mobile viewport sizes and inspect focus behavior with browser developer tools.
+
+## M3 - Strict Content Security Policy
+
+**Commit message:** `security(csp): enforce strict policy`
+
+### Tasks
+
+- Inventory scripts, styles, fonts, images, and other resource origins required by the portfolio.
+- Remove inline event handlers (including `onclick`) and bind behavior from external JavaScript using event listeners.
+- Remove or externalize inline scripts and styles where possible; avoid `eval` and other unsafe dynamic code.
+- Define a restrictive Content Security Policy with only the required sources. Prefer an HTTP response header; use a meta policy only when response headers cannot be configured, and document that limitation.
+- Exercise the site under the policy, fix blocked legitimate resources, and review browser CSP reports/console messages.
+
+### Completion criteria
+
+- No inline event-handler attributes remain, and interactive behavior works through registered event listeners.
+- The enforced CSP does not rely on `unsafe-inline` or `unsafe-eval` and allows only required resource sources.
+- Required page functionality and assets load without CSP violations; unexpected sources are blocked.
+- The chosen delivery method and any hosting limitation are documented.
+
+### How to check
+
+- Search HTML for inline event attributes such as `onclick`, `onload`, and `onerror`, and inspect script/style use for inline code.
+- Load every page with CSP enforcement enabled; check the browser console and Network panel for violations or blocked required assets.
+- Exercise all interactive features and verify that prohibited inline script execution is blocked.
+- Inspect the delivered response headers (or the documented meta policy) to confirm the effective directives.
+
+## M4 - Lighthouse audit and asset optimization
+
+**Commit message:** `perf: optimize assets`
+
+### Tasks
+
+- Capture a reproducible Lighthouse baseline for the production build at mobile and desktop settings.
+- Review Lighthouse diagnostics and prioritize asset-related opportunities: image formats and dimensions, responsive/lazy loading, font loading, and unnecessary CSS/JavaScript.
+- Optimize assets and delivery without reducing visual quality or breaking behavior; retain only resources the portfolio needs.
+- Re-run Lighthouse after each focused change and record scores, test conditions, and remaining opportunities.
+
+### Completion criteria
+
+- The Lighthouse audit has been completed for the production build and the results are recorded.
+- Performance is optimized toward a score of 100, with avoidable asset-related diagnostics addressed; any gap from 100 has a documented cause and follow-up.
+- The audit also records Accessibility, Best Practices, and SEO scores and resolves regressions introduced by this milestone.
+- Pages remain usable and visually correct at mobile and desktop sizes after optimization.
+
+### How to check
+
+- Run Lighthouse against the production build using consistent browser version, device profile, and network settings; repeat runs and record the median score to account for variance.
+- Compare before/after Performance scores and key metrics (LCP, INP, and CLS), plus relevant asset diagnostics.
+- Inspect optimized images/fonts and verify that they load correctly; manually check representative pages at mobile and desktop sizes.
+- Recheck all Lighthouse category scores and confirm no earlier accessibility or security work regressed.
