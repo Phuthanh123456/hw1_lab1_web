@@ -60,6 +60,14 @@
 - Test opening and closing each menu/dialog repeatedly, including nested or adjacent controls, and confirm focus restoration.
 - Repeat at desktop and mobile viewport sizes and inspect focus behavior with browser developer tools.
 
+### M2 audit results
+
+- The only component that expands or changes navigation is the mobile menu; there are no dialogs or modal overlays. No focus trap was found: Tab moves from the final menu link into the page, and Shift+Tab from the first menu link returns to the menu button and can continue to the wordmark.
+- Tested with keyboard input in headless Edge at 390px and 1440px widths. The mobile sequence is skip link, wordmark, menu button, then About, Skills, Projects, and Contact when expanded. Each focused interactive element showed a 3px visible outline. Space opens the menu; Escape closes it and returns focus to the menu button. Enter on a navigation link follows its destination.
+- The audit found focus could fall to `body` after selecting a menu link because the menu was hidden while it still held focus. The navigation now moves focus to the destination section heading after closing; destination headings can receive programmatic focus and show a visible focus outline.
+- Resizing across the 760px breakpoint could hide the focused menu control or link. The menu now hands focus from the mobile toggle to the first desktop navigation link, and back to the toggle when the navigation collapses on mobile. The expanded state resets when the layout changes.
+- Repeated the Tab, Shift+Tab, Escape, link activation, and resize checks after the fixes. Focus stayed visible, moved to sensible destinations, and could leave the navigation in both directions. No keyboard traps remain in the audited flows.
+
 ## M3 - Strict Content Security Policy
 
 **Commit message:** `security(csp): enforce strict policy`

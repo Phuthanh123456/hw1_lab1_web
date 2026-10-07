@@ -55,6 +55,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid #15200a; outline-offs
 .eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 24px; color: #c2c8bd; }
 .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgb(200 239 98 / 12%); }
 h1, h2, h3, p { margin-top: 0; }
+h2:focus-visible { outline: 3px solid #15200a; outline-offset: 6px; border-radius: 2px; }
 h1 { max-width: 660px; margin-bottom: 21px; font-size: clamp(48px, 6.8vw, 82px); line-height: 1.02; letter-spacing: -.075em; }
 .accent-text, .contact-content h2 span { color: var(--green); }
 .period { color: var(--green); }
