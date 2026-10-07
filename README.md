@@ -7,10 +7,10 @@ A personal portfolio built with semantic HTML, CSS, and vanilla JavaScript. It i
 From the repository root, start a local HTTP server:
 
 ```powershell
-py -m http.server 8000
+py -m http.server 8001
 ```
 
-Open <http://localhost:8000> in a browser and stop the server with `Ctrl+C`. The portfolio also works as a static site; use an HTTP server when checking the Content Security Policy and browser tools.
+Open <http://localhost:8001> in a browser and stop the server with `Ctrl+C`. HW1 uses port **8001** so it can run at the same time as HW2 (8002) and HW3 (8003). The portfolio also works as a static site; use an HTTP server when checking the Content Security Policy and browser tools.
 
 ## Portfolio contents
 
