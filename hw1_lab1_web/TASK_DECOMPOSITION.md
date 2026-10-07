@@ -1,5 +1,12 @@
 # Homework 1 - Production Portfolio
 
+## Personalization rebuild — 2026-10-07
+
+- Source information: `D:\PhuThanh\Code\ex_lab1_web\index.html`, `about/index.html`, `contact/index.html`, and `projects.json` (read only).
+- Included only the name Thai Nguyen Thanh Phu, Information Systems / UIT background, city, four skills, two project summaries with their existing repository links, email, and GitHub profile. No source application code, environment files, private configuration, phone number, or credentials were copied.
+- HW1 uses Vanilla HTML/CSS/JavaScript with external files. Source files are in `hw1_lab1_web`; the existing Git root remains its parent. The file placement was recorded as six unchanged renames, preserving the original milestone history.
+- The following rebuild notes are new checks; earlier audit notes remain as historical results.
+
 ## M1 - WCAG 2.2 AA audit
 
 **Commit message:** `fix(a11y): contrast & landmarks`
@@ -34,6 +41,14 @@
 - Ran axe-core 4.13.0 for WCAG 2.0, 2.1, and 2.2 Level A/AA rules at desktop width and with the mobile menu closed and open. Each scan reported zero violations (20-22 passing rules). Axe marked 4-5 contrast nodes as incomplete because they are symbols or decorative artwork; these are hidden from the accessibility tree or are non-text decoration, and visible text pairs were checked separately.
 - Verified the accessibility tree exposes the banner, labeled main navigation, main content, footer, and a button named "Menu". The heading sequence is one `h1`, section `h2` headings, and project `h3` headings. There are no content images or form fields, so image alt text and form labels are not applicable; CSS artwork is hidden from assistive technology.
 - Exercised keyboard navigation in the mobile layout: Tab reaches the skip link, activating it moves to main content, the menu button opens with Enter/Space, Tab and Shift+Tab move through navigation links, and Escape closes the menu and returns focus to its button. No M1 findings remain.
+
+### M1 personalized rebuild verification — 2026-10-07
+
+- Fixed the header link accessible-name mismatch found by axe: its visible name now supplies the accessible name, with explicit spacing between the name and Portfolio. Preserved semantic landmarks, heading hierarchy, and the skip link.
+- Fresh, cache-disabled browser scans with axe-core 4.14.0 reported zero WCAG A/AA violations at desktop 1440px and mobile 375px with the menu closed/open (20/22/22 passing rules). The 4–5 incomplete contrast nodes concern decorative, accessibility-hidden symbols/artwork; visible text was checked separately.
+- Checked contrast ratios: body/project links 14.56:1, project copy 5.29:1, email on contact panel 11.69:1, hero description 8.61:1, large green headings 3.54:1, and focus against light/dark surfaces 15.48:1 and 11.12:1.
+- Chrome accessibility tree exposes banner, navigation, main, and contentinfo in the desktop layout. At mobile width the closed navigation is intentionally hidden. First Tab reaches the skip link; Enter focuses main. One h1, section h2 headings, and project h3 headings remain in order; no horizontal overflow at 375px.
+- No content images or form fields were introduced. CSS artwork is decorative and hidden from assistive technology. Automated checks plus the recorded browser checks do not constitute a complete screen-reader certification.
 
 ## M2 - Focus-trap audit
 
