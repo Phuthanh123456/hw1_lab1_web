@@ -181,3 +181,30 @@
 - Performance scored 100 before and after on mobile and desktop. The page has no raster/content images, web fonts, third-party assets, or JavaScript libraries; Lighthouse found no minification or unused CSS/JavaScript opportunity. The stylesheet remains 13,191 transferred bytes and render-blocking (estimated 152-153 ms); the deferred script is 2,431 bytes. The temporary server sends neither compression nor cache headers, so Lighthouse reports 15,622 bytes of uncached CSS/JavaScript and an uncompressed 5,710-byte document. These delivery opportunities need hosting/server configuration, which is absent from this static workspace. No score gap from the Performance target remains in these local runs.
 - Accessibility scored 100 in every profile and phase, and the CSP and external-only CSS/JavaScript remain intact. Lighthouse also reports the existing `label-content-name-mismatch` audit on the header wordmark (`.wordmark`); it predates M4 and is recorded for an M1 accessibility follow-up rather than changed in this milestone.
 - No M4 accessibility or security regressions were observed. The final category scores meet 100 in the measured local profiles; production-host cache/compression behavior remains unverified until hosting configuration exists.
+
+### M4 personalized rebuild verification — 2026-10-07
+
+- Served the actual personalized source folder over HTTP at `http://127.0.0.1:8011/`. Tools: Lighthouse CLI 13.5.0, headless Chrome 154.0.0.0, mobile default throttling and desktop preset. Collected three baseline and three post-change runs per profile (12 complete JSON/HTML reports, all successful CLI exits). These are local lab results, not deployed-host or field measurements.
+- Baseline found SEO 91 because `connect-src 'none'` blocked Lighthouse's same-origin robots.txt request. Added a 23-byte valid robots.txt and allowed `connect-src 'self'`. This permits same-origin audit requests while retaining default deny, external-only script/style, and the prohibition on unsafe-inline/unsafe-eval. Robots audit now passes.
+- Replaced the old P favicon with a compact local TP vector matching the portfolio identity: 255 to 224 bytes. Kept system fonts, CSS artwork, external stylesheet, and deferred JavaScript; no raster images, external assets, dependencies, or build step were added.
+- Category scores, in run order; medians use the three runs per row:
+
+  | Profile | Phase | Performance runs | Performance median | Accessibility | Best Practices | SEO |
+  | --- | --- | --- | ---: | ---: | ---: | ---: |
+  | Mobile | Before | 89, 100, 100 | 100 | 100 | 100 | 91 |
+  | Mobile | After | 100, 99, 100 | 100 | 100 | 100 | 100 |
+  | Desktop | Before | 100, 100, 100 | 100 | 100 | 100 | 91 |
+  | Desktop | After | 100, 100, 100 | 100 | 100 | 100 | 100 |
+
+  The other three category scores are identical across each row's three runs. Performance has measurable run variance; the goal of 100 is met by the medians, not every individual mobile run. No timing improvement is claimed from the tiny favicon change.
+
+  | Profile | Phase | Median FCP | Median LCP | Median TBT | Median CLS | Median Speed Index |
+  | --- | --- | ---: | ---: | ---: | ---: | ---: |
+  | Mobile | Before | 0.855 s | 1.121 s | 0 ms | 0 | 1.082 s |
+  | Mobile | After | 1.134 s | 1.134 s | 72.5 ms | 0 | 1.134 s |
+  | Desktop | Before | 0.240 s | 0.247 s | 0 ms | 0 | 0.255 s |
+  | Desktop | After | 0.304 s | 0.304 s | 0 ms | 0 | 0.391 s |
+
+- Remaining diagnostics concern local-server cache lifetimes (~16 KiB), document delivery/compression (~6 KiB), and the stylesheet request chain/render blocking. These require deployment delivery configuration; field INP is not available. Preserve readable source rather than introduce a build/dependency for this small static page.
+- After optimization, reran axe at 1440px and 375px closed/open: zero violations; 15 keyboard/resize checks and five CSP checks passed again. Startup has no console/runtime errors. No TODO content or mobile horizontal overflow remains. Screenshots were refreshed from the actual source with cache disabled.
+- Reports and test evidence are outside Git in `C:\Users\ADMIN\AppData\Local\Temp\codex-hw1-personalize-b97efbfce2264acbba73f6e460d3cdb1`. Reproduce with `npx --no-install lighthouse http://127.0.0.1:8011/ --port=9223 --output=json --output=html --output-path=<report-path> --quiet`; add `--preset=desktop` for desktop. Port 9223 belongs to the test Chrome instance; without it, configure the installed Chromium browser for the CLI.
