@@ -125,3 +125,31 @@
 - Compare before/after Performance scores and key metrics (LCP, INP, and CLS), plus relevant asset diagnostics.
 - Inspect optimized images/fonts and verify that they load correctly; manually check representative pages at mobile and desktop sizes.
 - Recheck all Lighthouse category scores and confirm no earlier accessibility or security work regressed.
+
+### M4 audit results
+
+- Test conditions: Lighthouse CLI 13.5.0 with Microsoft Edge 154.0.4258.53. The workspace has no build, deployment, or server configuration, so the source tree was served directly at `http://127.0.0.1:4173/` with `python -m http.server`; this is a local static-server measurement, not a deployed production-host measurement. Three reports were collected for each profile using Lighthouse's mobile form factor and desktop preset with their default throttling. All reports contained complete category and metric data. One baseline mobile CLI process reported a DevTools `Runtime.evaluate` timeout after it wrote a complete, parseable report; the other baseline runs and all post-change runs exited successfully.
+- Median category scores (0-100):
+
+  | Profile | Phase | Performance | Accessibility | Best Practices | SEO |
+  | --- | --- | ---: | ---: | ---: | ---: |
+  | Mobile | Before | 100 | 100 | 96 | 100 |
+  | Mobile | After | 100 | 100 | 100 | 100 |
+  | Desktop | Before | 100 | 100 | 96 | 100 |
+  | Desktop | After | 100 | 100 | 100 | 100 |
+
+- Median lab metrics from the same runs:
+
+  | Profile | Phase | FCP | LCP | INP | TBT | CLS | Speed Index |
+  | --- | --- | ---: | ---: | --- | ---: | ---: | ---: |
+  | Mobile | Before | 0.828 s | 0.911 s | N/A* | 0 ms | 0 | 0.828 s |
+  | Mobile | After | 0.807 s | 0.912 s | N/A* | 0 ms | 0 | 0.807 s |
+  | Desktop | Before | 0.226 s | 0.247 s | N/A* | 0 ms | 0 | 0.319 s |
+  | Desktop | After | 0.220 s | 0.246 s | N/A* | 0 ms | 0 | 0.292 s |
+
+  `*` Lighthouse marked its INP breakdown audit not applicable for these local lab runs; no field INP measurement was available.
+
+- The baseline logged a 404 for the implicit `/favicon.ico` request, which lowered Best Practices to 96. Added a small, same-origin `favicon.svg` and declared it in the document head. The icon now returns HTTP 200, Lighthouse reports no browser-console errors, and Best Practices scores 100 in both profiles. This adds no external dependency and does not change the CSP.
+- Performance scored 100 before and after on mobile and desktop. The page has no raster/content images, web fonts, third-party assets, or JavaScript libraries; Lighthouse found no minification or unused CSS/JavaScript opportunity. The stylesheet remains 13,191 transferred bytes and render-blocking (estimated 152-153 ms); the deferred script is 2,431 bytes. The temporary server sends neither compression nor cache headers, so Lighthouse reports 15,622 bytes of uncached CSS/JavaScript and an uncompressed 5,710-byte document. These delivery opportunities need hosting/server configuration, which is absent from this static workspace. No score gap from the Performance target remains in these local runs.
+- Accessibility scored 100 in every profile and phase, and the CSP and external-only CSS/JavaScript remain intact. Lighthouse also reports the existing `label-content-name-mismatch` audit on the header wordmark (`.wordmark`); it predates M4 and is recorded for an M1 accessibility follow-up rather than changed in this milestone.
+- No M4 accessibility or security regressions were observed. The final category scores meet 100 in the measured local profiles; production-host cache/compression behavior remains unverified until hosting configuration exists.
